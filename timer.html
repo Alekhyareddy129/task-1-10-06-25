@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Timer</title>
+  <style>
+    body {
+      background-color: #eef6fc;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    h1 {
+      color: #2c5c5c;
+      font-size: 36px;
+    }
+
+    #time {
+      font-size: 48px;
+      margin: 30px 0;
+      color: #333;
+    }
+
+    .buttons button {
+      padding: 10px 25px;
+      margin: 0 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .start {
+      background-color: #77c4a4;
+      color: white;
+    }
+
+    .stop {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .reset {
+      background-color: #90ee90;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>TIMER</h1>
+  <div id="time">25 : 00</div>
+
+  <div class="buttons">
+    <button class="start" onclick="startTimer()">START</button>
+    <button class="stop" onclick="stopTimer()">STOP</button>
+    <button class="reset" onclick="resetTimer()">RESET</button>
+  </div>
+
+  <script>
+    let timer = null;
+    let totalSeconds = 1500; // 25 minutes
+    let running = false;
+
+    function updateTime() {
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+      document.getElementById('time').innerText =
+        ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')};
+    }
+
+    function startTimer() {
+      if (!running) {
+        running = true;
+        timer = setInterval(() => {
+          if (totalSeconds > 0) {
+            totalSeconds--;
+            updateTime();
+          } else {
+            clearInterval(timer);
+            running = false;
+          }
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+      running = false;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      totalSeconds = 1500;
+      updateTime();
+    }
+
+    updateTime(); // Initial time display
+  </script>
+
+</body>
+</html>
